@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kündigungsschreiben Vorlage - Kostenlos & Ohne Anmeldung</title>
+    <meta name="description" content="Erstellen Sie Ihr Kündigungsschreiben in wenigen Sekunden als PDF. Kostenlos, sicher und ohne Registrierung.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans leading-normal">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white py-6 shadow-md">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h1 class="text-3xl font-bold">Kündigungsschreiben Vorlage</h1>
+            <p class="mt-2 text-blue-100">Kostenlos erstellen & sofort als PDF herunterladen</p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Form Section -->
+        <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">1. Ihre Daten eingeben</h2>
+            <form id="cancelForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-600">Absender (Vor- & Nachname)</label>
+                    <input type="text" id="senderName" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Max Mustermann" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-600">Ihre Adresse & PLZ/Ort</label>
+                    <input type="text" id="senderAddress" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Musterstraße 1, 12345 Berlin" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-600">Empfänger (Firmenname)</label>
+                    <input type="text" id="receiverName" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none" placeholder="z. B. Telekom / Vodafone" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-600">Vertrags- oder Kundennummer</label>
+                    <input type="text" id="contractNum" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none" placeholder="123456789" required>
+                </div>
+                <button type="button" onclick="generatePDF()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-md transition shadow">
+                    Kostenlos als PDF herunterladen
+                </button>
+            </form>
+        </section>
+
+        <!-- Preview / PDF Output Template -->
+        <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col justify-between">
+            <div>
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">2. Vorschau</h2>
+                <div id="pdfContent" class="p-4 bg-gray-50 border rounded text-sm space-y-4 font-mono text-gray-900">
+                    <div>
+                        <p id="pSenderName" class="font-bold">Max Mustermann</p>
+                        <p id="pSenderAddress">Musterstraße 1, 12345 Berlin</p>
+                    </div>
+                    <hr class="my-2">
+                    <div>
+                        <p class="font-bold">An:</p>
+                        <p id="pReceiverName">Telekom Deutschland GmbH</p>
+                    </div>
+                    <div class="pt-4">
+                        <p class="font-bold">Betreff: Kündigung meines Vertrages</p>
+                        <p>Vertrags-/Kundennummer: <span id="pContractNum">123456789</span></p>
+                    </div>
+                    <div class="pt-2 text-xs leading-relaxed">
+                        <p>Sehr geehrte Damen und Herren,</p>
+                        <p class="mt-2">hiermit kündige ich meinen oben genannten Vertrag fristgerecht zum nächstmöglichen Zeitpunkt.</p>
+                        <p class="mt-2">Bitte senden Sie mir eine schriftliche Bestätigung der Kündigung unter Angabe des Beendigungszeitpunkts zu.</p>
+                        <p class="mt-4">Mit freundlichen Grüßen,</p>
+                        <p id="pSignName" class="mt-2 italic">Max Mustermann</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Real-time preview update
+        const inputs = ['senderName', 'senderAddress', 'receiverName', 'contractNum'];
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', () => {
+                document.getElementById('pSenderName').innerText = document.getElementById('senderName').value || 'Max Mustermann';
+                document.getElementById('pSenderAddress').innerText = document.getElementById('senderAddress').value || 'Musterstraße 1, 12345 Berlin';
+                document.getElementById('pReceiverName').innerText = document.getElementById('receiverName').value || 'Telekom Deutschland GmbH';
+                document.getElementById('pContractNum').innerText = document.getElementById('contractNum').value || '123456789';
+                document.getElementById('pSignName').innerText = document.getElementById('senderName').value || 'Max Mustermann';
+            });
+        });
+
+        // Generate PDF
+        function generatePDF() {
+            const element = document.getElementById('pdfContent');
+            const opt = {
+                margin:       1,
+                filename:     'Kuendigungsschreiben.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+</body>
+</html>
